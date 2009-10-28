@@ -1,0 +1,28 @@
+CRAWLER!
+
+This is a simple webcrawler written in Ruby. It's not really meant for anything
+hardcore and was written originally to see how connected the pages of a site
+are; i.e. can a user reach all of the pages we want them to be able to reach
+through links.
+
+Usage: ./crawler.rb [options] URL
+
+Options:
+
+-t, --tags: Comma-separated list of html tags to pick out. Used this to find
+		any extant "<b>" or "<i>" tags.
+
+-x, --exclude: Comma-separated list of strings which, if present in a gathered
+		URL, will cause that URL to be ignored. ".pdf" is a good one.
+
+
+That's pretty much it. It will not extend itself beyond the initial host,
+ignores query strings and fragments. It does not have any current function to
+throttle itself and does not handle abnormal HTTP response codes at the moment.
+
+As I say, basic.
+
+Anyway, use at your own risk, don't go crashing people's webservers, don't do
+drugs, drink your milk, &c.
+
+Crawler is covered by the terms of the MIT/X11 license. A copy is included.
