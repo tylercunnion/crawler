@@ -11,11 +11,9 @@ through links.
 
 === Options:
 
--t, --tags: Comma-separated list of html tags to pick out. Used this to find
-		any extant "<b>" or "<i>" tags.
+-t, --tags: Comma-separated list of html tags to pick out. Used this to find any extant "<b>" or "<i>" tags.
 
--x, --exclude: Comma-separated list of strings which, if present in a gathered
-		URL, will cause that URL to be ignored. ".pdf" is a good one.
+-x, --exclude: Comma-separated list of strings which, if present in a gathered URL, will cause that URL to be ignored. ".pdf" is a good one.
 
 
 That's pretty much it. It will not extend itself beyond the initial host,
