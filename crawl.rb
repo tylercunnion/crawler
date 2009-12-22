@@ -5,10 +5,12 @@ $LOAD_PATH << "./lib"
 require 'WebCrawler'
 require 'optparse'
 require 'set'
+require 'Page'
     
 options = {}
 options[:extras] = []
 
+=begin
 optionparser = OptionParser.new do |opts|
   opts.on("-t", "--tag a,b,c", Array,
     "Report incidences of the given tag(s)") do |tags|
@@ -25,22 +27,26 @@ optionparser = OptionParser.new do |opts|
   opts.parse!(ARGV)
 end
 
+options[:extras] << GraphGenerator
 
+=end
 
-#crawler = BreadthFirstCrawler.new(options)
-crawler = DepthFirstCrawler.new(options)
+crawler = BreadthFirstCrawler.new(options)
+#crawler = DepthFirstCrawler.new(options)
 
-url = ARGV[0]
+url_string = ARGV[0]
 begin
-  url = URI.parse(url)
-  raise Exception if url.class != URI::HTTP
+  url = URI.parse(url_string)
+  raise if url.class != URI::HTTP
 rescue
-  puts "Error parsing URL"
+  puts "Error parsing URL: #{url_string}"
   Process.exit
 end
 
 url.normalize!
 
-crawler.search(url)
+
+
+crawler.search(Page.new(url))
     
 puts crawler.visited.collect { |link| link.to_s }.sort

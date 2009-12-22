@@ -1,10 +1,10 @@
 class WebCrawler
   
   require 'net/http'
-  require 'rubygems'
   require 'nokogiri'
   require 'set'
-  require 'PageProcessor'
+  require 'Page'
+  require 'pp'
 
   attr_accessor :visited
   attr_reader :options
@@ -18,18 +18,14 @@ end
 
 class DepthFirstCrawler < WebCrawler
   
-  def search(url)
-    @visited << url
+  def search(obj)
+    @visited << obj
     
-    processor = PageProcessor.new url, @options
-    
-    neighbors = processor.process - @visited
-    
-    #puts "VISITED: " + @visited.length.to_s + " LINKS: " + neighbors.length.to_s
-        
+    neighbors = obj.neighbors - @visited
+         
     # Have to check @visited again since it may/will have changed deeper in the
     # recursion
-    neighbors.each { |link| search(link) unless @visited.include?(link) }
+    neighbors.each { |neighbor| search(neighbor) unless @visited.include?(neighbor) }
   end
   
 end
@@ -43,22 +39,22 @@ class BreadthFirstCrawler < WebCrawler
     super
   end
 
-  def search(url)
-    @open << url
+  def search(obj)
+    
+    @open << obj
     
     until @open.empty? do
       
-      #puts "OPEN: " + @open.length.to_s + " CLOSED: " + @visited.length.to_s + " VISITING: " + url.to_s
-      url  = @open.shift
+      this_obj = @open.shift
       
-      processor = PageProcessor.new url, @options
-      neighbors = processor.process - @visited
+            puts "OPEN: " + @open.length.to_s + " CLOSED: " + @visited.length.to_s + " VISITING: " + this_obj.to_s
       
+      neighbors = this_obj.neighbors - @visited
       @open = (@open + neighbors.to_a).uniq
-      
-      @visited << url
-    
+      @visited << this_obj          
     end
+
+    #File.open('webgraph.dot', 'w') {|f| f.write(processor.graph_string) }
     
   end
   
