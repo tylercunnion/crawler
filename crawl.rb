@@ -1,11 +1,8 @@
 #! /usr/bin/ruby
 
-$LOAD_PATH << "./lib"
-
-require 'WebCrawler'
+require 'lib/crawler'
 require 'optparse'
 require 'set'
-require 'Page'
     
 options = {}
 options[:extras] = []
@@ -31,7 +28,7 @@ options[:extras] << GraphGenerator
 
 =end
 
-crawler = BreadthFirstCrawler.new(options)
+crawler = Crawler::BreadthFirstCrawler.new(options)
 #crawler = DepthFirstCrawler.new(options)
 
 url_string = ARGV[0]
@@ -47,6 +44,6 @@ url.normalize!
 
 
 
-crawler.search(Page.new(url))
+crawler.search(Crawler::Page.new(url))
     
 puts crawler.visited.collect { |link| link.to_s }.sort
