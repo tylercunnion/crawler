@@ -46,4 +46,26 @@ describe Page do
     page1.should satisfy { |p| p < page2 }
   end
 
+  
+  it "should sort correctly in an array" do
+    a = Page.new(URI.parse("http://example.com/a"))
+    b = Page.new(URI.parse("http://example.com/b"))
+    c = Page.new(URI.parse("http://example.com/c"))
+    
+    [b,a,c].sort.should eql([a,b,c])
+  end
+  
+  it "should compare multi-directory URIs" do
+    a = Page.new(URI.parse("http://example.com/a"))
+    b = Page.new(URI.parse("http://example.com/b"))
+    c = Page.new(URI.parse("http://example.com/b/something"))
+    d = Page.new(URI.parse("http://example.com/b/whatever"))
+    
+    [d,a,c,b].sort.should eql([a,b,c,d])
+  end
+    
+  
+    
+        
+
 end
