@@ -42,7 +42,11 @@ module Crawler
     end
     
     def initialize(url)
-      @url = url
+      if url.class == URI::HTTP
+        @url = url
+      else
+        raise ArgumentError, "Given URI is not of class URI::HTTP"
+      end
     end
   
     def to_s
