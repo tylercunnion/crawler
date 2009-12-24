@@ -35,17 +35,18 @@ module Crawler
     def neighbors
       if @neighbors.nil?
         @neighbors = Set.new []
-        html.search("a").each do |a_tag|
-          #begin
-            # Remove white space and query strings from URLs. With query string
-            # attached we might never stop
-            link = @url + a_tag.attribute("href").to_s.strip
-            #link.fragment = nil
-            #link.query = nil
-            @neighbors << Page.new(link) if link.class == URI::HTTP
-          #rescue
-          #end
-        end 
+        html.search("a").each do |a_tag|    
+          href = a_tag.attribute("href").to_s.strip
+          begin
+            link = @url + href
+          rescue
+            # Log the error and move on
+          end
+          link.normalize!
+          #link.fragment = nil
+          #link.query = nil
+          @neighbors << Page.new(link) if link.class == URI::HTTP
+        end
       end
       return @neighbors
     end
