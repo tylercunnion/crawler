@@ -63,9 +63,7 @@ describe Page do
     
     [d,a,c,b].sort.should eql([a,b,c,d])
   end
-    
   
-    
-        
+  
 
 end

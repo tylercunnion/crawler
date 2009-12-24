@@ -42,8 +42,6 @@ end
 
 url.normalize!
 
-
-
 crawler.search(Crawler::Page.new(url))
     
 puts crawler.visited.collect { |link| link.to_s }.sort

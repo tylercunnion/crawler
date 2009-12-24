@@ -39,20 +39,14 @@ module Crawler
     def search(obj)
     
       @open << obj
-    
       until @open.empty? do
       
         this_obj = @open.shift
-      
-              puts "OPEN: " + @open.length.to_s + " CLOSED: " + @visited.length.to_s + " VISITING: " + this_obj.to_s
-      
+        #puts "OPEN: " + @open.length.to_s + " CLOSED: " + @visited.length.to_s + " VISITING: " + this_obj.to_s
         neighbors = this_obj.neighbors - @visited
         @open = (@open + neighbors.to_a).uniq
         @visited << this_obj          
-      end
-
-      #File.open('webgraph.dot', 'w') {|f| f.write(processor.graph_string) }
-    
+      end    
     end
   
   end

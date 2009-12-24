@@ -1,8 +1,8 @@
 module Crawler
+  
   # Class which processes HTML pages. The class may be initialized with one or
   # more 'extras', decorators which provide additional processing beyond simply
   # finding neighbors.
-
   class PageProcessor
     attr_accessor :page
     attr_accessor :options
@@ -26,7 +26,6 @@ module Crawler
   
     # Process the page. The base method finds neighbors and returns a Set of
     # them. Optional decorators may have further effects.
-  
     def process
     
       puts "VISITING: " + @url.to_s
