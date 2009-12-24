@@ -5,6 +5,14 @@ hardcore and was written originally to see how connected the pages of a site
 are; i.e. can a user reach all of the pages we want them to be able to reach
 through links.
 
+== NOTE
+
+Little or none of the rest of this Readme applies right now. Crawler is undergoing
+significant refactoring/redesigning that will make it more modular and more
+useful. In the meantime the command line switches below do not work and the
+crawler *will* move beyond the original host. Better not to use it at all
+until a stable release.
+
 === Usage
 
 ./crawler.rb [options] URL
