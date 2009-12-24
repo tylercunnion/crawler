@@ -28,7 +28,7 @@ options[:extras] << GraphGenerator
 
 =end
 
-crawler = Crawler::BreadthFirstCrawler.new(options)
+crawler = Crawler::WebCrawler.new(options)
 #crawler = DepthFirstCrawler.new(options)
 
 url_string = ARGV[0]
