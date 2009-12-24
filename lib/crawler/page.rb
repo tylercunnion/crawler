@@ -26,7 +26,7 @@ module Crawler
     
     # Returns the page in Nokogiri parsed form
     def html
-      @html = Nokogiri::HTML::Document.parse(Net::HTTP.get(@url)) if @html.nil?
+      @html = Nokogiri::HTML::Document.parse(Net::HTTP.get(@url, {'User-Agent' => 'RubyCrawler'})) if @html.nil?
       return @html
     end
   
