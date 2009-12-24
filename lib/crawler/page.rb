@@ -1,7 +1,9 @@
 module Crawler
-  class Page
   
-    attr_accessor :html
+  # Represents one HTML page. The actual page itself is lazy loaded; the page
+  # is not downloaded until the html method is called.
+  class Page
+      
     attr_accessor :url
   
     include Comparable
@@ -21,22 +23,29 @@ module Crawler
     def ==(anOther)
       self.url == anOther.url
     end
+    
+    # Returns the page in Nokogiri parsed form
+    def html
+      @html = Nokogiri::HTML::Document.parse(Net::HTTP.get(@url)) if @html.nil?
+      return @html
+    end
   
+    # Get every "neighbor" of the page - that is, a Page object for everything
+    # linked to from this page.
     def neighbors
       if @neighbors.nil?
-        @html = Nokogiri::HTML::Document.parse(Net::HTTP.get(@url))
         @neighbors = Set.new []
-        @html.search("a").each do |a_tag|
-          begin
+        html.search("a").each do |a_tag|
+          #begin
             # Remove white space and query strings from URLs. With query string
             # attached we might never stop
-            link = @url + a_tag.attribute("href").to_s.strip.split('?')[0]
-            link.fragment = nil
-          
-            @neighbors << Page.new(link) unless link.nil? || link.host != @url.host || link.path == "/" || link.path.index("javascript:") != nil
-          rescue
-          end
-         end 
+            link = @url + a_tag.attribute("href").to_s.strip
+            #link.fragment = nil
+            #link.query = nil
+            @neighbors << Page.new(link) if link.class == URI::HTTP
+          #rescue
+          #end
+        end 
       end
       return @neighbors
     end
