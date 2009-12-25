@@ -13,7 +13,7 @@ module Crawler
       @options = options
       @visited = Set.new []
       @open = Array.new
-    end    
+    end
 
     def search(obj)
       @open << obj
@@ -36,7 +36,6 @@ module Crawler
     # Run before neighbors are retrieved. Mostly for decorators to hook onto.
     # - obj: The object currently being operated on by the crawler
     def before_get_neighbors(obj)
-      puts "OPEN: " + @open.length.to_s + " CLOSED: " + @visited.length.to_s + " VISITING: " + obj.to_s
     end
   
   end

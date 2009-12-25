@@ -3,33 +3,32 @@
 require 'lib/crawler'
 require 'optparse'
 require 'set'
+require 'mixology'
     
 options = {}
 options[:extras] = []
 
-=begin
+crawler = Crawler::WebCrawler.new(options)
+
 optionparser = OptionParser.new do |opts|
   opts.on("-t", "--tag a,b,c", Array,
     "Report incidences of the given tag(s)") do |tags|
-      options[:tags] = tags.to_set
-      options[:extras] << TagIdentifier
+      crawler.mixin Crawler::TagIdentifyCrawler
+      crawler.tags = tags.to_set
     end
     
-  opts.on("-x", "--exclude .pdf, conted", Array,
-    "Ignore URLs containing the given string(s)") do |exclude|
-      options[:exclude] = exclude.to_set
-      options[:extras] << LinkExcluder
-    end
+  #opts.on("-x", "--exclude .pdf, conted", Array,
+  #  "Ignore URLs containing the given string(s)") do |exclude|
+  #    options[:exclude] = exclude.to_set
+  #    options[:extras] << LinkExcluder
+  #  end
+  
+  opts.on("-v", "--verbose", "Verbose mode") do
+    crawler.mixin Crawler::VerboseCrawler
+  end
     
   opts.parse!(ARGV)
 end
-
-options[:extras] << GraphGenerator
-
-=end
-
-crawler = Crawler::WebCrawler.new(options)
-#crawler = DepthFirstCrawler.new(options)
 
 url_string = ARGV[0]
 begin
