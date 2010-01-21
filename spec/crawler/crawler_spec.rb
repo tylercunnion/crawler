@@ -40,13 +40,13 @@ module Crawler
         
         it "should send status code and URL" do
           uri = URI.parse('http://example.com/')
-          @obs.should_receive(:update).with(200, uri.to_s)
+          @obs.should_receive(:update).with("200", uri.to_s)
           @crawler.crawl(uri)
         end
         
         it "should send 404 for missing URL" do
           uri = URI.parse('http://example.com/fartz/')
-          @obs.should_receive(:update).with(404, uri.to_s)
+          @obs.should_receive(:update).with("404", uri.to_s)
           @crawler.crawl(uri)
         end
 

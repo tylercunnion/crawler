@@ -1,5 +1,6 @@
 require 'set'
 require 'observer'
+require 'net/http'
 
 module Crawler
   class Webcrawler
@@ -13,8 +14,10 @@ module Crawler
     end
     
     def crawl(uri)
+      resp = Net::HTTP.get_response(uri)
+      
       changed
-      notify_observers(200, uri.to_s)
+      notify_observers(resp.code, uri.to_s)
       @crawled << uri
     end
   end
