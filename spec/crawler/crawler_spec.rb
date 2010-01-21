@@ -22,19 +22,32 @@ module Crawler
       end
       
       context "during a crawl" do
+        
+        before(:each) do
+          @crawler = Webcrawler.new
+          @obs = mock("observer", :update => nil)
+          @crawler.add_observer(@obs)
+          @uri = URI.parse('http://example.com/')
+        end
 
-        it "should sent notifications" do
-          crawler = Webcrawler.new
-          obs = mock("observer", :update => "Thank")
-          
-          crawler.add_observer(obs)
-          
+        it "should send notifications" do
           uri = URI.parse('http://example.com/')
-
-          obs.should_receive(:update)
-
-          crawler.crawl(uri)
-
+          
+          @obs.should_receive(:update)
+          @crawler.crawl(uri)
+        end
+        
+        
+        it "should send status code and URL" do
+          uri = URI.parse('http://example.com/')
+          @obs.should_receive(:update).with(200, uri.to_s)
+          @crawler.crawl(uri)
+        end
+        
+        it "should send 404 for missing URL" do
+          uri = URI.parse('http://example.com/fartz/')
+          @obs.should_receive(:update).with(404, uri.to_s)
+          @crawler.crawl(uri)
         end
 
       end

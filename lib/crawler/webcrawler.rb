@@ -14,7 +14,7 @@ module Crawler
     
     def crawl(uri)
       changed
-      notify_observers()
+      notify_observers(200, uri.to_s)
       @crawled << uri
     end
   end
