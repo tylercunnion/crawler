@@ -21,6 +21,23 @@ module Crawler
         @crawler.crawled.should_not be_empty
       end
       
+      context "during a crawl" do
+
+        it "should sent notifications" do
+          crawler = Webcrawler.new
+          obs = mock("observer", :update => "Thank")
+          
+          crawler.add_observer(obs)
+          
+          uri = URI.parse('http://example.com/')
+
+          obs.should_receive(:update)
+
+          crawler.crawl(uri)
+
+        end
+
+      end
         
     end
   end

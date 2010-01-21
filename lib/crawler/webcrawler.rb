@@ -13,6 +13,8 @@ module Crawler
     end
     
     def crawl(uri)
+      changed
+      notify_observers()
       @crawled << uri
     end
   end
