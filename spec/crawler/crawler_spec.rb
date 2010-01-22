@@ -14,7 +14,7 @@ module Crawler
         
         before(:all) do
           @uri_base = 'http://localhost:12000/'
-          www_root = File.dirname(__FILE__) + '/../fixtures/'
+          www_root = File.join(File.dirname(__FILE__), '..', 'fixtures')
           @server = Thread.new do
             s = WEBrick::HTTPServer.new({:Port => 12000, :DocumentRoot => www_root, :AccessLog => []})
             @port = s.config[:Port]
@@ -50,6 +50,7 @@ module Crawler
           @obs.should_receive(:update).with("404", uri.to_s)
           @crawler.crawl(uri)
         end
+
 
       end
       
