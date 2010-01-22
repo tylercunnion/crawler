@@ -1,6 +1,7 @@
 require 'set'
 require 'observer'
 require 'net/http'
+require 'nokogiri'
 
 module Crawler
   class Webcrawler
@@ -19,6 +20,11 @@ module Crawler
       changed
       notify_observers(resp.code, uri.to_s)
       @crawled << uri
+      
+      html = Nokogiri.parse(resp.body)
+      a_tags = html.search("a")
+      a_tags.each { |t| @crawled << uri + t.attribute("href").to_s }
+      
     end
   end
 end

@@ -16,6 +16,10 @@ module Crawler
         end
       end
     end
+    
+    after(:all) do
+      @server.exit
+    end
    
     context "before crawl" do
       it "should have an empty crawl list" do
@@ -57,12 +61,16 @@ module Crawler
     context "after crawl" do
       before(:each) do
         @crawler = Webcrawler.new
-        @uri = URI.parse('http://example.com/')
+        @uri = URI.parse(@uri_base)
         @crawler.crawl(@uri)
       end
       
       it "should have at least one item in crawled" do
         @crawler.crawled.should_not be_empty
+      end
+      
+      it "should have put crawled links into crawled" do
+        @crawler.crawled.should have(3).items
       end
     end
   end
