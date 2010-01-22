@@ -6,8 +6,8 @@ module Crawler
     end
     
     def update(errcode, url)
-      if errcode == "404"
-        @log.puts "404 encountered for " + url
+      if errcode =~ /[4,5]\d\d/
+        @log.puts "#{errcode} encountered for " + url
       end
     end
   end
