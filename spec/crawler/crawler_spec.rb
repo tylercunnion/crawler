@@ -2,6 +2,20 @@ require File.join(File.dirname(__FILE__), "..", "spec_helper.rb")
 
 module Crawler
   describe Webcrawler do
+    
+    before(:all) do
+      @uri_base = 'http://localhost:12000/'
+      www_root = File.join(File.dirname(__FILE__), '..', 'fixtures')
+      @server = Thread.new do
+        s = WEBrick::HTTPServer.new({:Port => 12000, :DocumentRoot => www_root, :AccessLog => []})
+        @port = s.config[:Port]
+        begin
+          s.start
+        ensure
+          s.shutdown
+        end
+      end
+    end
    
     context "before crawl" do
       it "should have an empty crawl list" do
@@ -11,20 +25,6 @@ module Crawler
     end
       
     context "during a crawl" do
-        
-        before(:all) do
-          @uri_base = 'http://localhost:12000/'
-          www_root = File.join(File.dirname(__FILE__), '..', 'fixtures')
-          @server = Thread.new do
-            s = WEBrick::HTTPServer.new({:Port => 12000, :DocumentRoot => www_root, :AccessLog => []})
-            @port = s.config[:Port]
-            begin
-              s.start
-            ensure
-              s.shutdown
-            end
-          end
-        end
         
         before(:each) do
           @crawler = Webcrawler.new
