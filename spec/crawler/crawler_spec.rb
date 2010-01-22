@@ -70,7 +70,7 @@ module Crawler
       end
       
       it "should have put crawled links into crawled" do
-        @crawler.crawled.should have(3).items
+        @crawler.should have(3).crawled
       end
     end
   end
