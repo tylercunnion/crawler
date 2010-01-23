@@ -66,15 +66,15 @@ module Crawler
       end
       
       it "should have at least one item in crawled" do
-        @crawler.crawled.should_not be_empty
+        @crawler.should have_at_least(1).crawled
       end
       
       it "should have put crawled links into crawled" do
-        @crawler.should have(3).crawled
+        @crawler.should have_at_least(2).crawled
       end
       
       it "should have the children of child pages in crawled" do
-        @crawler.crawled.should_include(@uri + "/page4.html")
+        @crawler.crawled.should include(@uri + "/page4.html")
       end
     end
   end
