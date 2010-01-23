@@ -45,13 +45,13 @@ module Crawler
         
         it "should send status code and URL" do
           uri = URI.parse(@uri_base)
-          @obs.should_receive(:update).with("200", uri.to_s)
+          @obs.should_receive(:update).with(kind_of(Net::HTTPResponse), uri.to_s)
           @crawler.crawl(uri)
         end
         
         it "should send 404 for missing URL" do
           uri = URI.parse(@uri_base + 'doesnotexist.html')
-          @obs.should_receive(:update).with("404", uri.to_s)
+          @obs.should_receive(:update).with(instance_of(Net::HTTPNotFound), uri.to_s)
           @crawler.crawl(uri)
         end
 

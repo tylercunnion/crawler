@@ -18,7 +18,7 @@ module Crawler
       resp = Net::HTTP.get_response(uri)
       
       changed
-      notify_observers(resp.code, uri.to_s)
+      notify_observers(resp, uri.to_s)
       @crawled << uri
       
       html = Nokogiri.parse(resp.body)
