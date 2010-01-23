@@ -9,17 +9,21 @@ module Crawler
     include Observable
     
     attr_accessor :crawled
+    attr_accessor :queue
     
     def initialize()
       @crawled = Set.new
+      @queue = []
     end
     
     def crawl(uri)
+      @queue << uri
+      
       resp = Net::HTTP.get_response(uri)
       
       changed
       notify_observers(resp, uri.to_s)
-      @crawled << uri
+      @crawled << @queue.pop
       
       html = Nokogiri.parse(resp.body)
       a_tags = html.search("a")
