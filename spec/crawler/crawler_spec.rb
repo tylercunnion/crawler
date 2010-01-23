@@ -72,6 +72,10 @@ module Crawler
       it "should have put crawled links into crawled" do
         @crawler.should have(3).crawled
       end
+      
+      it "should have the children of child pages in crawled" do
+        @crawler.crawled.should_include(@uri + "/page4.html")
+      end
     end
   end
 end
