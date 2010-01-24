@@ -32,26 +32,32 @@ module Crawler
         
         before(:each) do
           @crawler = Webcrawler.new
-          @obs = mock("observer", :update => nil)
+          #@obs = mock("observer", :update => nil)
+          @obs = Observer.new
           @crawler.add_observer(@obs)
         end
 
         it "should send notifications" do
           uri = URI.parse(@uri_base)
-          
-          @obs.should_receive(:update)
+          @obs.should_receive(:update).any_number_of_times
           @crawler.crawl(uri)
         end
         
         it "should send status code and URL" do
           uri = URI.parse(@uri_base)
-          @obs.should_receive(:update).with(kind_of(Net::HTTPResponse), uri.to_s)
+          @obs.should_receive(:update).with(kind_of(Net::HTTPResponse), kind_of(URI)).any_number_of_times
           @crawler.crawl(uri)
         end
         
         it "should send 404 for missing URL" do
           uri = URI.parse(@uri_base + 'doesnotexist.html')
-          @obs.should_receive(:update).with(instance_of(Net::HTTPNotFound), uri.to_s)
+          @obs.should_receive(:update).with(instance_of(Net::HTTPNotFound), uri)
+          @crawler.crawl(uri)
+        end
+        
+        it "should not crawl a page more than once" do
+          uri = URI.parse(@uri_base)
+          @obs.should_receive(:update).with(kind_of(Net::HTTPResponse), URI.parse("http://localhost:12000/page2.html")).once 
           @crawler.crawl(uri)
         end
 
@@ -76,6 +82,11 @@ module Crawler
       it "should have the children of child pages in crawled" do
         @crawler.crawled.should include(@uri + "/page4.html")
       end
+      
+      it "should have an empty queue" do
+        @crawler.queue.should be_empty
+      end
+
     end
   end
 end

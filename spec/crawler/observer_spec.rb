@@ -7,7 +7,7 @@ module Crawler
     def test_code(code, log, obs)
       log.should_receive(:puts).with("#{code} encountered for http://example.com/")
       resp = Net::HTTPResponse::CODE_TO_OBJ["#{code}"].new("1.1", code, "")
-      obs.update(resp, "http://example.com/")
+      obs.update(resp, URI.parse("http://example.com/"))
     end
     
     it "should output a warning when an error code is reached" do
@@ -21,7 +21,7 @@ module Crawler
       log = double('log')
       obs = Observer.new(log)
       log.should_not_receive(:puts)
-      obs.update(Net::HTTPOK.new("1.1", "200", ""), "http://example.com/")
+      obs.update(Net::HTTPOK.new("1.1", "200", ""), URI.parse("http://example.com/"))
     end
 
   end

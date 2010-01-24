@@ -16,19 +16,20 @@ module Crawler
       @queue = []
     end
     
-    def crawl(uri)
-      @queue << uri
+    def crawl(start_uri)
+      start_uri = start_uri.normalize
+      @queue << start_uri
       
-      while(next_uri = @queue.shift)
-        resp = Net::HTTP.get_response(next_uri)
+      while(uri = @queue.shift)
+        resp = Net::HTTP.get_response(uri)
             
         changed
-        notify_observers(resp, next_uri.to_s)
+        notify_observers(resp, uri)
       
         html = Nokogiri.parse(resp.body)
         a_tags = html.search("a")
-        @queue = @queue + a_tags.collect { |t| next_uri + t.attribute("href").to_s }
-        @crawled << next_uri
+        @queue = @queue + a_tags.collect { |t| (uri + t.attribute("href").to_s).normalize }
+        @crawled << uri
       end
       
     end
