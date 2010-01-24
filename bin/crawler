@@ -1,0 +1,9 @@
+$LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")
+require 'crawler'
+
+crawler = Crawler::Webcrawler.new
+observer = Crawler::Observer.new
+
+crawler.add_observer(observer)
+
+crawler.crawl(URI.parse('http://nscl.org'))
