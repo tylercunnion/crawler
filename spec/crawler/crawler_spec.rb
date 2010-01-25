@@ -61,6 +61,15 @@ module Crawler
           @obs.should_not_receive(:update).with(kind_of(Net::HTTPResponse), uri + '/page5.html')
           @crawler.crawl(uri)
         end
+        
+        it "should not add the current page to the queue" do
+          uri = URI.parse(@uri_base + "self-reference.html")
+          @obs.should_receive(:update).once
+          @obs.should_not_receive(:update)
+          @crawler.crawl(uri)
+        end
+        
+        it "should deal gracefully with invalid URIs"
 
 
       end
