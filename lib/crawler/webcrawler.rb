@@ -39,7 +39,7 @@ module Crawler
             next_uri = uri + t.attribute("href").to_s
             next_uri unless @crawled.include?(next_uri) or next_uri == uri
           end
-          @queue = @queue.uniq
+          @queue = @queue.uniq.compact
           @crawled << uri
         end
       }

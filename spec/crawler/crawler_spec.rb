@@ -64,8 +64,14 @@ module Crawler
         
         it "should not add the current page to the queue" do
           uri = URI.parse(@uri_base + "self-reference.html")
-          @obs.should_receive(:update).once
-          @obs.should_not_receive(:update)
+          @obs.should_receive(:update).with(kind_of(Net::HTTPResponse), uri).once
+          @obs.should_not_receive(:update).with(kind_of(Net::HTTPResponse), uri)
+          @crawler.crawl(uri)
+        end
+        
+        it "should remove nil items from the queue" do
+          uri = URI.parse(@uri_base + "self-reference.html")
+          @obs.should_receive(:update).twice
           @crawler.crawl(uri)
         end
         
