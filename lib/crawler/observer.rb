@@ -8,7 +8,7 @@ module Crawler
     end
     
     def update(response, url)
-      #@log.puts "Received message for " + url.to_s
+      @log.puts "Scanning: " + url.to_s
       if response.kind_of?(Net::HTTPClientError) or response.kind_of?(Net::HTTPServerError)
         @log.puts "#{response.code} encountered for " + url.to_s
       end
