@@ -85,6 +85,12 @@ module Crawler
           @obs.should_receive(:update).once
           @crawler.crawl(uri)
         end
+        
+        it "should not, by default, crawl outside its original host" do
+          uri = URI.parse(@uri_base + 'external.html')
+          @obs.should_not_receive(:update).with(kind_of(Net::HTTPResponse), URI.parse("http://example.com"))
+          @crawler.crawl(uri)
+        end
 
 
       end
