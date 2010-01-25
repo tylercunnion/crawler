@@ -97,6 +97,13 @@ module Crawler
           @obs.should_not_receive(:update).with(kind_of(Net::HTTPResponse), uri + '/pdf.pdf')
           @crawler.crawl(uri)
         end
+        
+        it "should not download anything in the excluded option" do
+          uri = URI.parse(@uri_base + 'exclusion.html')
+          @crawler.options[:exclude] = ["/excluded/"]
+          @obs.should_not_receive(:update).with(kind_of(Net::HTTPResponse), uri + '/excluded/shouldnt-hit.html')
+          @crawler.crawl(uri)
+        end
 
 
       end

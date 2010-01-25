@@ -23,7 +23,8 @@ module Crawler
       @queue = []
       @options = {
         :timeout => 1.0/0, #Infinity
-        :external => false
+        :external => false,
+        :exclude => []
       }.merge(options)
       
     end
@@ -60,11 +61,9 @@ module Crawler
               @crawled.include?(u) or
               u == uri or
               !(u.kind_of?(URI::HTTP)) or
-              (u.host != uri.host and !@options[:external])
+              (u.host != uri.host and !@options[:external]) or
+              (@options[:exclude].any? { |excl| u.path.include?(excl)})
             }
-            
-            puts "****"
-            puts @queue
           end
           @crawled << uri
         end
