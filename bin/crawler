@@ -3,10 +3,20 @@ require 'crawler'
 require 'optparse'
 
 options = {}
-optparser = OptionParser.new(options) do |opts|
+logfile = ""
+optparser = OptionParser.new do |opts|
   opts.on("-t", "--timeout X", Integer, "Timemout limit in seconds") { |x| options[:timeout] = x}
+  opts.on("-x", "--exclude path", Array, "List of paths to be excluded") { |x| options[:exclude] = x}
+  opts.on("-l", "--log file", String, "Filename to use as a log") {|log| logfile = log }
   opts.parse!(ARGV)
 end
+
+unless logfile.empty?
+  log = File.new(logfile, "w")
+else
+  log = $stdout
+end
+
 
 uri_string = ARGV[0]
 begin
@@ -18,7 +28,7 @@ rescue
 end
 
 crawler = Crawler::Webcrawler.new(options)
-observer = Crawler::Observer.new
+observer = Crawler::Observer.new(log)
 
 crawler.add_observer(observer)
 
