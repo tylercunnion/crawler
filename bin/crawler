@@ -1,9 +1,25 @@
 $LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")
 require 'crawler'
+require 'optparse'
 
-crawler = Crawler::Webcrawler.new
+options = {}
+optparser = OptionParser.new(options) do |opts|
+  opts.on("-t", "--timeout X", Integer, "Timemout limit in seconds") { |x| options[:timeout] = x}
+  opts.parse!(ARGV)
+end
+
+uri_string = ARGV[0]
+begin
+  uri = URI.parse(uri_string)
+  raise unless uri.is_a?(URI::HTTP)
+rescue
+  puts "Error parsing URI: #{uri_string}"
+  Process.exit
+end
+
+crawler = Crawler::Webcrawler.new(options)
 observer = Crawler::Observer.new
 
 crawler.add_observer(observer)
 
-crawler.crawl(URI.parse('http://nscl.org'))
+crawler.crawl(uri)
