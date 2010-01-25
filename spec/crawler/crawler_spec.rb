@@ -91,6 +91,12 @@ module Crawler
           @obs.should_not_receive(:update).with(kind_of(Net::HTTPResponse), URI.parse("http://example.com"))
           @crawler.crawl(uri)
         end
+        
+        it "should only download HTML content types" do
+          uri = URI.parse(@uri_base + 'non-html.html')
+          @obs.should_not_receive(:update).with(kind_of(Net::HTTPResponse), uri + '/pdf.pdf')
+          @crawler.crawl(uri)
+        end
 
 
       end
