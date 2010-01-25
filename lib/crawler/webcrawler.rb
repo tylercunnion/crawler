@@ -39,7 +39,7 @@ module Crawler
           Net::HTTP.start(uri.host, uri.port) do |http|
             
             head = http.head(uri.path)
-            next if head.content_type != "text/html"
+            next if head.content_type != "text/html" # If the page retrieved is not an HTML document, we'll choke on it anyway. Skip it
             
             resp = http.get(uri.path)
 
@@ -51,12 +51,20 @@ module Crawler
             @queue = @queue + a_tags.collect do |t|
               begin
                 next_uri = uri + t.attribute("href").to_s.strip
-                next_uri unless @crawled.include?(next_uri) or next_uri == uri or !(next_uri.kind_of?(URI::HTTP)) or (next_uri.host != uri.host and !@options[:external])
               rescue
                 nil
               end
             end
             @queue = @queue.compact.uniq
+            @queue = @queue.reject {|u| 
+              @crawled.include?(u) or
+              u == uri or
+              !(u.kind_of?(URI::HTTP)) or
+              (u.host != uri.host and !@options[:external])
+            }
+            
+            puts "****"
+            puts @queue
           end
           @crawled << uri
         end
