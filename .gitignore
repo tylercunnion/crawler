@@ -1,1 +1,4 @@
 /doc/*
+/log/*
+/pkg/*
+*.gem
