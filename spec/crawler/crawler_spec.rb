@@ -32,20 +32,20 @@ module Crawler
         
         before(:each) do
           @crawler = Webcrawler.new
-          #@obs = mock("observer", :update => nil)
-          @obs = Observer.new
+          @obs = mock("observer", :update => nil, :null_object => true)
+          #@obs = Observer.new
           @crawler.add_observer(@obs)
         end
 
         it "should send notifications" do
           uri = URI.parse(@uri_base)
-          @obs.should_receive(:update).any_number_of_times
+          @obs.should_receive(:update)
           @crawler.crawl(uri)
         end
         
         it "should send status code and URL" do
           uri = URI.parse(@uri_base)
-          @obs.should_receive(:update).with(kind_of(Net::HTTPResponse), kind_of(URI)).any_number_of_times
+          @obs.should_receive(:update).with(kind_of(Net::HTTPResponse), kind_of(URI))
           @crawler.crawl(uri)
         end
         
@@ -57,7 +57,8 @@ module Crawler
         
         it "should not crawl a page more than once" do
           uri = URI.parse(@uri_base)
-          @obs.should_receive(:update).with(kind_of(Net::HTTPResponse), URI.parse("http://localhost:12000/page2.html")).once 
+          @obs.should_receive(:update).with(kind_of(Net::HTTPResponse), uri + '/page5.html').once
+          @obs.should_not_receive(:update).with(kind_of(Net::HTTPResponse), uri + '/page5.html')
           @crawler.crawl(uri)
         end
 

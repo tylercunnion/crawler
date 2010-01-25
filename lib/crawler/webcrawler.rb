@@ -22,13 +22,14 @@ module Crawler
       
       while(uri = @queue.shift)
         resp = Net::HTTP.get_response(uri)
-            
+
         changed
         notify_observers(resp, uri)
       
         html = Nokogiri.parse(resp.body)
         a_tags = html.search("a")
-        @queue = @queue + a_tags.collect { |t| (uri + t.attribute("href").to_s).normalize }
+        @queue = @queue + a_tags.collect { |t| (uri + t.attribute("href").to_s) }
+        @queue = @queue.uniq
         @crawled << uri
       end
       
