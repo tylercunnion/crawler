@@ -28,7 +28,10 @@ module Crawler
       
         html = Nokogiri.parse(resp.body)
         a_tags = html.search("a")
-        @queue = @queue + a_tags.collect { |t| (uri + t.attribute("href").to_s) }
+        @queue = @queue + a_tags.collect do |t| 
+          next_uri = uri + t.attribute("href").to_s
+          next_uri unless @crawled.include?(next_uri)
+        end
         @queue = @queue.uniq
         @crawled << uri
       end
