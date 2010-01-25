@@ -75,7 +75,10 @@ module Crawler
           @crawler.crawl(uri)
         end
         
-        it "should deal gracefully with invalid URIs"
+        it "should handle spaces in URIs" do
+          uri = URI.parse(@uri_base + 'messed-up.html')
+          lambda { @crawler.crawl(uri) }.should_not raise_error
+        end
 
 
       end
