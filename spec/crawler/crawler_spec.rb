@@ -75,7 +75,7 @@ module Crawler
           @crawler.crawl(uri)
         end
         
-        it "should handle spaces in URIs" do
+        it "should convert any exceptions to nil" do
           uri = URI.parse(@uri_base + 'messed-up.html')
           lambda { @crawler.crawl(uri) }.should_not raise_error
         end
