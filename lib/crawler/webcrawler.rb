@@ -37,7 +37,7 @@ module Crawler
           a_tags = html.search("a")
           @queue = @queue + a_tags.collect do |t| 
             next_uri = uri + t.attribute("href").to_s.strip
-            next_uri unless @crawled.include?(next_uri) or next_uri == uri
+            next_uri unless @crawled.include?(next_uri) or next_uri == uri or !(next_uri.kind_of?(URI::HTTP))
           end
           @queue = @queue.compact.uniq
           @crawled << uri

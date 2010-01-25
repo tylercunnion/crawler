@@ -79,6 +79,12 @@ module Crawler
           uri = URI.parse(@uri_base + 'messed-up.html')
           lambda { @crawler.crawl(uri) }.should_not raise_error
         end
+        
+        it "should not crawl anything but HTTP web addresses" do
+          uri = URI.parse(@uri_base + 'non-http.html')
+          @obs.should_receive(:update).once
+          @crawler.crawl(uri)
+        end
 
 
       end
