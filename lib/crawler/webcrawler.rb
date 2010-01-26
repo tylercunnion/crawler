@@ -18,6 +18,8 @@ module Crawler
     
     # Accepts the following options:
     # * timeout -- Time limit for the crawl operation, after which a Timeout::Error exception is raised.
+    # * external -- Boolean; whether or not the crawler will go outside the original URI's host.
+    # * exclude -- A URI will be excluded if it includes any of the strings within this array.
     def initialize(options={})
       @crawled = Set.new
       @queue = []
@@ -30,6 +32,7 @@ module Crawler
     end
     
     # Given a URI object, the crawler will explore every linked page recursively using the Breadth First Search algorithm.
+    # Whenever it downloads a page, it notifies observers with an HTTPResponse subclass object and the downloaded URI object.
     def crawl(start_uri)
       start_uri = start_uri.normalize
       @queue << start_uri
