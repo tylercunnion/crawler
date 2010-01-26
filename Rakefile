@@ -1,4 +1,5 @@
 require 'rake'
+require 'rubygems'
 require 'jeweler'
 
 Jeweler::Tasks.new do |g|
