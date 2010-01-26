@@ -1,0 +1,33 @@
+= Crawler
+
+Crawler consists of two classes, Crawler::Webcrawler and Crawler::Observer. All actual crawling is contained in Webcrawler, so Observer can be replaced with any class that implements the update method (See the Observable module for more). 
+
+=== Webcrawler
+
+The Webcrawler class can be instantiated with a hash of options:
+* timeout -- Time limit for the crawl operation, after which a Timeout::Error exception is raised.
+* external -- Boolean; whether or not the crawler will go outside the original URI's host.
+* exclude -- A URI will be excluded if it includes any of the strings within this array.
+
+=== Observer
+
+The Observer class may be instantiated with an object for logging, as long as it responds to the puts method. It is applied by passing an instance of it to the add_observer method of a Crawler object. Any class may be substitute (or supplement) which implements the update method with two arguments, an instance of HTTPResponse and an instance of URI.
+
+== Installation
+
+gem install crawler
+
+It's just that easy!
+
+== Executable
+
+The gem comes with an executable version you may find useful:
+
+crawler url [-txl]
+	-t --timeout, Timeout limit in seconds
+	-x --exclude, Comma separated list of strings which will be passed to the exclude option of Crawler
+	-l --log, A filename for a log file, defaults to STDOUT
+
+== License
+
+This gem is licensed under the MIT/X11 license. A copy is included in the file LICENSE.
