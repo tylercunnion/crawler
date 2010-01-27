@@ -31,7 +31,7 @@ module Crawler
     context "during a crawl" do
         
         before(:each) do
-          @crawler = Webcrawler.new
+          @crawler = Webcrawler.new(:timeout => 1)
           @obs = mock("observer", :update => nil, :null_object => true)
           #@obs = Observer.new
           @crawler.add_observer(@obs)
@@ -110,7 +110,7 @@ module Crawler
       
     context "after crawl" do
       before(:each) do
-        @crawler = Webcrawler.new
+        @crawler = Webcrawler.new(:timeout => 1)
         @uri = URI.parse(@uri_base)
         @crawler.crawl(@uri)
       end
