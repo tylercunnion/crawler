@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{crawler}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tyler Cunnion"]
@@ -14,10 +14,19 @@ Gem::Specification.new do |s|
   s.description = %q{BFS webcrawler that implements Observable}
   s.email = %q{tyler.cunnion@gmail.com}
   s.executables = ["crawler"]
+  s.extra_rdoc_files = [
+    "LICENSE",
+     "README.rdoc"
+  ]
   s.files = [
     ".gitignore",
+     "LICENSE",
+     "Manifest",
+     "README.rdoc",
+     "Rakefile",
      "VERSION",
      "bin/crawler",
+     "crawler.gemspec",
      "lib/crawler.rb",
      "lib/crawler/observer.rb",
      "lib/crawler/webcrawler.rb",
