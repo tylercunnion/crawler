@@ -4,10 +4,7 @@ Crawler consists of two classes, Crawler::Webcrawler and Crawler::Observer. All 
 
 === Webcrawler
 
-The Webcrawler class can be instantiated with a hash of options:
-* timeout -- Time limit for the crawl operation, after which a Timeout::Error exception is raised.
-* external -- Boolean; whether or not the crawler will go outside the original URI's host.
-* exclude -- A URI will be excluded if it includes any of the strings within this array.
+The Webcrawler class can be instantiated with a hash of options, all of which are documented in the rdoc.
 
 === Observer
 

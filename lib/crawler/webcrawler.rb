@@ -20,13 +20,15 @@ module Crawler
     # * timeout -- Time limit for the crawl operation, after which a Timeout::Error exception is raised.
     # * external -- Boolean; whether or not the crawler will go outside the original URI's host.
     # * exclude -- A URI will be excluded if it includes any of the strings within this array.
+    # * useragent -- User Agent string to be transmitted in the header of all requests
     def initialize(options={})
       @crawled = Set.new
       @queue = []
       @options = {
         :timeout => 1.0/0, #Infinity
         :external => false,
-        :exclude => []
+        :exclude => [],
+        :useragent => "Ruby Crawler"
       }.merge(options)
       
     end
@@ -42,7 +44,9 @@ module Crawler
           
           Net::HTTP.start(uri.host, uri.port) do |http|
             
-            head = http.head(uri.path)
+            
+            
+            head = http.head(uri.path, {'User-Agent' => @options[:useragent]})
             next if head.content_type != "text/html" # If the page retrieved is not an HTML document, we'll choke on it anyway. Skip it
             
             resp = http.get(uri.path)
