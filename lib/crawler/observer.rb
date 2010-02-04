@@ -13,9 +13,9 @@ module Crawler
     
     # Called by the Observable module through Webcrawler. 
     def update(response, url)
-      @log.puts "Scanning: " + url.to_s
+      @log.puts "Scanning: #{url}"
       if response.kind_of?(Net::HTTPClientError) or response.kind_of?(Net::HTTPServerError)
-        @log.puts "#{response.code} encountered for " + url.to_s
+        @log.puts "#{response.code} encountered for #{url}"
       end
     end
   end
