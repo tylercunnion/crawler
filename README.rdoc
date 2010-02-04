@@ -6,6 +6,10 @@ Crawler consists of two classes, Crawler::Webcrawler and Crawler::Observer. All 
 
 The Webcrawler class can be instantiated with a hash of options, all of which are documented in the rdoc.
 
+==== Please note:
+
+As of right now Webcrawler *does not* respect robots.txt. This is planned for a future release, but until then please do not use this on a website which you don't own or have permission to crawl. I further encourage you to read the section of the license about this being "AS IS" software for which I make no warranty and accept no liability. Play nice out there!
+
 === Observer
 
 The Observer class may be instantiated with an object for logging, as long as it responds to the puts method. It is applied by passing an instance of it to the add_observer method of a Crawler object. Any class may be substitute (or supplement) which implements the update method with two arguments, an instance of HTTPResponse and an instance of URI.
