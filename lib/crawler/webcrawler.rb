@@ -28,7 +28,7 @@ module Crawler
         :timeout => 1.0/0, #Infinity
         :external => false,
         :exclude => [],
-        :useragent => "Ruby Crawler"
+        :useragent => "Ruby Crawler/" + Crawler::VERSION
       }.merge(options)
       
     end
@@ -44,12 +44,14 @@ module Crawler
           
           Net::HTTP.start(uri.host, uri.port) do |http|
             
+            headers = {
+              'User-Agent' => @options[:useragent]
+            }
             
-            
-            head = http.head(uri.path, {'User-Agent' => @options[:useragent]})
+            head = http.head(uri.path, headers)
             next if head.content_type != "text/html" # If the page retrieved is not an HTML document, we'll choke on it anyway. Skip it
             
-            resp = http.get(uri.path)
+            resp = http.get(uri.path, headers)
 
             changed
             notify_observers(resp, uri)
