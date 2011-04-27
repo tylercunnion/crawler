@@ -11,7 +11,7 @@ module Crawler
     
     # Set of all URIs which have been crawled
     attr_accessor :crawled
-    # Queue of URIs to be crawled. Array which acts as a LIFO queue.
+    # Queue of URIs to be crawled. Array which acts as a FIFO queue.
     attr_accessor :queue
     # Hash of options
     attr_accessor :options
